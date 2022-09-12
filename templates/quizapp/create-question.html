@@ -1,0 +1,76 @@
+{% extends "users/base.html" %}
+{% block title %}Create Quiz{% endblock %}
+{% block content %}
+
+<style>
+    .account-form input {
+        border: 2px solid #ccc;
+        height: calc(2em + .75rem + 2px);
+    }
+
+    .account-form input:focus {
+        border-color: #1497ff;
+        box-shadow: none;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="col-md-12">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-7  mx-auto">
+                             <form class="account-form p-4 rounded col-lg-10 mx-auto" action="." method="post">
+                                {% csrf_token %}
+                                
+                                {% if form.errors %}
+                                <p>Please correct the following errors:</p>
+                                {% for field in form %}
+                                {% if field.errors %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ field.label }}: {{ field.errors|striptags }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                                <label>{{ form.creator.label}}<span class="text-muted small">
+                                    (Required)</span></label>
+                            {{ form.creator }}
+                                <label>{{ form.creator_department.label}}<span class="text-muted small">
+                                        (Required)</span></label>
+                                {{ form.creator_department }}
+                                <label>{{ form.course_name.label}}<span class="text-muted small">
+                                    (Required)</span></label>
+                            {{ form.course_name }}
+                            <label>{{ form.question.label}}<span class="text-muted small">
+                                </span></label>
+                            {{ form.question }}
+                            <label>{{ form.option1.label}}<span class="text-muted small">
+                            </span></label>
+                            {{ form.option1 }}
+                            <label>{{ form.option2.label}}<span class="text-muted small">
+                            </span></label>
+                            {{ form.option2 }}
+                                <label>{{ form.option3.label}}<span class="text-muted mb-4">
+                                        </span></label>
+                                {{ form.option3 }}
+                                
+                                <label>{{ form.option4.label}}<span class="text-muted small">
+                                </span></label>
+                            {{ form.option4 }}
+                            
+                                <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit">Submit</button>
+                                <p class="text-center">
+                                    <a href="{% url 'quizapp:create-question' %}">Already have an account?</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

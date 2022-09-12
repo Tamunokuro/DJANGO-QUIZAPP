@@ -1,0 +1,107 @@
+{% extends "users/base.html" %}
+{% block title %}{{ course.name|title }} Quiz{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="col-md-12">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-7  mx-auto">
+                            <h3>{{ course.quiz_name }}</h3>
+                            {% if questions|length >= 1 %}
+                            <p class="mb-1 text-muted">Please read question carefully</p>
+                            {% else %}
+                            <p>No questions uploaded for this course </p>
+                            {% endif %}
+
+                            <form method="POST" action=".">
+                                {% csrf_token %}
+
+                            
+                            {% for q in page_obj %}
+                            
+                            
+                            <div class="col">
+                                {{ page_obj.number }}. {{ q.question }}
+                             <br>
+                             <div class="form-check">
+                             <input class="form-check-input" value="{{q.option1}}" type="radio" name="option" id="id_option1">
+                             <label class="form-check-label" for="id_option1">
+
+                             A. {{ q.option1 }}
+                             </label>
+                             </div>
+                             <br>
+                             <div class="form-check">
+                                <input class="form-check-input" value="{{q.option2}}" type="radio" name="option" id="id_option2">
+                                <label class="form-check-label" for="id_option2">
+                             B. {{ q.option2 }}
+                             </label>
+                             </div>
+                             <br>
+                             <div class="form-check">
+                                <input class="form-check-input" value="{{q.option3}}" type="radio" name="option" id="id_option3">
+                                <label class="form-check-label" for="id_option3">
+                             C. {{ q.option3 }}
+                                </label>
+                             </div>
+                             <br>
+                             <div class="form-check">
+                                <input class="form-check-input" value="{{q.option4}}" type="radio" name="option" id="id_option4">
+                                <label class="form-check-label" for="id_option4">
+                             D. {{ q.option4 }}
+                                </label>
+                             </div>
+                            </div>
+                            </form>
+                             
+                             <br>
+                             <br>
+                        
+                            
+                            {% endfor %}
+
+                            
+                            {% if questions|length >= 1 %}
+                                <ul class="pagination">
+                                
+                                    {% if page_obj.has_previous %}
+                                        <li><a class="page-link btn btn-light" role="button" href="?page=1">First</a></li>
+                                        <li><a class="page-link btn btn-light" role="button" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                                    {% endif %}
+                            
+                                    {% for i in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="active page-item page-link mr-5 text-end"><span style="color: rgb(21, 180, 233);">{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <li><a class="page-link btn btn-light" role="button" href="?page={{ page_obj.next_page_number }}">next</a></li>
+                                        <li><a class="page-link btn btn-light" role="button" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+                                    {% endif %}
+                                </span>
+                                </ul>
+                                {% endif %}
+                           
+                            </div>
+                    
+                         
+                        {% if questions|length >= 1 %}
+                        <div class="text-end">
+                            <a class="btn btn-primary" role="button" href="">Submit</a>
+                        </div>
+                        {% endif %}
+
+                        
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
