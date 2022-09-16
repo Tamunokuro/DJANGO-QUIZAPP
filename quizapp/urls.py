@@ -6,5 +6,6 @@ app_name = 'quizapp'
 urlpatterns = [
     path('', views.home, name='home'),
     path('create-question/', views.create_question, name='create-question'),
-    path('questions/<slug:quiz_name>', views.questions, name='questions')
+    path('questions/<slug:quiz_name>', views.questions, name='questions'),
+    path('add-answer/', views.quiz_answer,name='add-answer')
 ]
