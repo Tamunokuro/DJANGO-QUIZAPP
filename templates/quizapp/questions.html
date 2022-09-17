@@ -12,6 +12,7 @@
                         <div class="col-12 col-lg-7  mx-auto">
                             <h3 id="user" value="{{ request.user }}">{{ request.user }}</h3>
                             <h4>COURSE TITLE: {{ course.quiz_name }}</h4>
+                            <div class="text-end" id="count"></div>
                             {% if questions|length >= 1 %}
                             <p class="mb-1 text-muted">Please read question carefully</p>
                             {% else %}
