@@ -8,7 +8,7 @@
 - Django
 
 ## Getting Started
-- Run `git clone`
+- Run `git clone git@github.com:Tamunokuro/DJANGO-QUIZAPP.git`
 
 ### Prerequisites
 - Python 3.10
