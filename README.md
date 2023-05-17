@@ -5,7 +5,7 @@
 # 📗 Table of Contents
 
 - [📗 Table of Contents](#-table-of-contents)
-- [📖 [Django Quiz App](#-django-quiz-app)
+- [📖 [Django Quiz App ](#-about-project-)
   - [🛠 Built With ](#-built-with-)
     - [Tech Stack ](#tech-stack-)
     - [Key Features ](#key-features-)
@@ -49,6 +49,13 @@
   </ul>
 </details>
 
+<details>
+  <summary>Database</summary>
+  <ul>
+    <li><a href="https://www.postgresql.org/">PostgresQL</a></li>
+  </ul>
+</details>
+
 <!-- Features -->
 
 ### Key Features <a name="key-features"></a>
@@ -87,7 +94,7 @@ In order to run this project you need:
 ### Setup
 
 Clone this repository to your desired folder:
-- Run `git clone git@github.com:Tamunokuro/Space-Travelers-hub.git`
+- Run `git@github.com:Tamunokuro/DJANGO-QUIZAPP.git`
 - cd into the repository and if you need to create a virtual enviroment use this `python3 -m venv venv`
 - Activate the virtual enviroment
   - Windows: `venv\Scripts\activate`
