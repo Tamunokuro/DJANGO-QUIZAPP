@@ -27,7 +27,7 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 [Django Quiz App] <a name="about-project"></a>
+# 📖 Django Quiz App <a name="about-project"></a>
 
 > This is a quiz application built with Bootstrap and Django.
 
