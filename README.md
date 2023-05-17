@@ -84,7 +84,7 @@ To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 - Python 3.8.9
-- Package Install for Python (Pip)
+- Package Installer for Python (Pip)
 - Django
 - Code editor ([VSCode](https://code.visualstudio.com/) preferably)
 
@@ -95,7 +95,7 @@ In order to run this project you need:
 
 Clone this repository to your desired folder:
 - Run `git@github.com:Tamunokuro/DJANGO-QUIZAPP.git`
-- cd into the repository and if you need to create a virtual enviroment use this `python3 -m venv venv`
+- cd into the directory and if you need to create a virtual enviroment use this `python3 -m venv venv`
 - Activate the virtual enviroment
   - Windows: `venv\Scripts\activate`
   - MacOS: `source djangoenv/bin/activate`
