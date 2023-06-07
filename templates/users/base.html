@@ -39,6 +39,9 @@
                             </svg>
                         </div>
                         <span class="fs15 fw500">{{ user.username }}</span>
+                        {% if request.user.is_superuser %}
+                        <a type="button" class="btn btn-outline-secondary mx-3" href="{% url 'quizapp:create-question' %}"><span class="fs15 fw500">Create Question</span></a>
+                        {% endif %}
                         {% if request.user.is_authenticated %}
                         <a type="button" class="btn btn-outline-secondary mx-3" href="{% url 'account:logout' %}"><span class="fs15 fw500">LOG OUT</span></a>
                         {% else %}
@@ -55,6 +58,7 @@
 
     <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/timer.js' %}"></script>
+    <script src="{% static 'js/microv.js' %}"></script>
     
 </body>
 </html>
