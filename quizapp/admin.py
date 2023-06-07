@@ -10,7 +10,7 @@ class CourseAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('quiz_name',)}
 
 class QuizStudentAdmin(admin.ModelAdmin):
-    list_display = ['student','department', 'quiz_course', 'score', 'time_taken']
+    list_display = ['student', 'quiz_course', 'score', 'time_taken']
 
 
 admin.site.site_header = 'QUIZ APP ADMIN'
