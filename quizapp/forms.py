@@ -25,18 +25,9 @@ class CreateQuestion(forms.ModelForm):
                 {'class': 'form-control mb-3', 'placeholder': 'C', 'name': 'option3', 'id': 'id_option3'})
             self.fields['option4'].widget.attrs.update(
                 {'class': 'form-control', 'placeholder': 'D', 'name': 'option4', 'id':'id_option_4'})
+            self.fields['answer'].widget.attrs.update(
+                {'class': 'form-control', 'placeholder': 'Answer', 'name': 'answer', 'id':'answer'})
 
-class TakeQuiz(forms.ModelForm):
-    class Meta:
-        model = QuizStudent
-        fields = "__all__"
-
-    def __int__(self, *args, **kwargs):
-        super.__init__(*args, **kwargs)
-        self.fields['question'].widget.attrs.update(
-                {'class': 'form-control mb-3', 'placeholder': 'Student', 'id':'student', 'readonly':'readonly'})
-        self.fields['option1'].widget.attrs.update(
-                {'class': 'form-check-input mb-3','type':'radio', 'name': 'option1', 'id': 'id_option1'})
 
 
   
