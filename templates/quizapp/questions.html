@@ -15,15 +15,14 @@
                             <div class="text-end" id="count"></div>
                             {% if questions|length >= 1 %}
                             <p class="mb-1 text-muted">Please read question carefully</p>
-                            {% else %}
-                            <p>No questions uploaded for this course </p>
-                            {% endif %}
                             
                             <div id="quiz__form">
                             <form method="POST" action="">
                             {% csrf_token %}
                             
                             {% for q in page_obj %}
+                            <input type="hidden" name="course_title" value="{{ course.quiz_name }}">
+                            
                             <div class="form-group">
                                 <div class="col alert-primary p-3 rounded" role="alert" name="question" id="question" value="{{ q.question }}">
                                     Q. {{ q.question }}
@@ -32,46 +31,38 @@
                                 
                                 <fieldset id="answers">
                                     <div class="form-check">
-                                        <input class="form-check-input" value="{{ q.option1 }}" type="radio" name="option" id="option1">
+                                        <input class="form-check-input" value="{{ q.option1 }}" type="radio" name="option{{ q.id }}" id="option1">
                                         <label class="form-check-label" for="option1">
                                             A. {{ q.option1 }}
                                         </label>
                                     </div>
                                     
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="option" id="option2" value="{{ q.option2 }}">
+                                        <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option2" value="{{ q.option2 }}">
                                         <label class="form-check-label" for="option2">
                                             B. {{ q.option2 }}
                                         </label>
                                     </div>
                                     
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="option" id="option3" value="{{ q.option3 }}">
+                                        <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option3" value="{{ q.option3 }}">
                                         <label class="form-check-label" for="option3">
                                             C. {{ q.option3 }}
                                         </label>
                                     </div>
                                     
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="option" id="option4" value="{{ q.option4 }}">
+                                        <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option4" value="{{ q.option4 }}">
                                         <label class="form-check-label" for="option4">
                                             D. {{ q.option4 }}
                                         </label>
                                     </div>
                                 </fieldset>
                                   <input type="hidden" name="answer" id="answer" value="{{q.answer}}">
+                                  {% include 'quizapp/messages.html' %}
                                 </div>
-
                                 {% endfor %}
-                                {% if messages %}
-                                    <div class="messages">
-                                    {% for message in messages %}
-                                    <div{% if message.tags %} class="alert alert-sm alert-{{ message.tags }}"{% endif %}>
-                                    {{ message }}
-                                    </div>
-                                    {% endfor %}
-                                    </div>
-                                {% endif %}                                
+                                                            
                                 <input class="btn btn-primary check-btn mb-3" type="submit" value="Save" id="submit" onclick="saveQuiz()"/>
                                 </form>
 
@@ -97,6 +88,10 @@
                                     {% endif %}
                                 </ul>
                             {% endif %}
+                            {% else %}
+                            <p>No questions uploaded for this course </p>
+                            {% endif %}
+                            
                             </div>
                                            
                         {% comment %} <input type="text" id="totalScore"> {% endcomment %} 

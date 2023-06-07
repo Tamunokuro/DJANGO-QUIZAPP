@@ -75,7 +75,6 @@ class QuizStudent(models.Model):
         ("option4", "OPTION4")
     )
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='quiz_student') 
-    department = models.CharField(max_length=256, null=False, blank=False, choices=DEPARTMENT_CHOICES)
     quiz_course = models.ForeignKey(Course, max_length=256, null=False, blank=False, on_delete=models.CASCADE, default="")
     score = models.IntegerField(null=True, blank=True)
     time_taken = models.DateTimeField(auto_now_add=True)
