@@ -10,70 +10,76 @@ from .quiz import Quiz
 from users.models import Student
 from urllib import request, response
 
+
 # Create your views here.
 @login_required
 def home(request):
     courses = Course.objects.all()
-    return render(request, 'quizapp/index.html', {'courses':courses})
+    return render(request, "quizapp/index.html", {"courses": courses})
+
 
 @login_required
 def create_question(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         questionForm = CreateQuestion(request.POST)
         if questionForm.is_valid():
             question = questionForm.save(commit=True)
             question.save()
 
-            response = redirect('/')
+            response = redirect("/")
             return response
 
     else:
         questionForm = CreateQuestion()
-    return render(request, 'quizapp/create-question.html', {'form':questionForm})
+    return render(request, "quizapp/create-question.html", {"form": questionForm})
+
 
 def questions(request, quiz_name=None):
     if request.method == "GET":
         course = get_object_or_404(Course, slug=quiz_name)
         allquestions = QuizCreate.objects.filter(course_name=course)
         questions_count = allquestions.count()
-        p = Paginator(allquestions, questions_count | 1)
-        page_number = request.GET.get('page')
+        p = Paginator(allquestions, questions_count + 1)  # Use '+' instead of '|'
+        page_number = request.GET.get("page")
         page_obj = p.get_page(page_number)
 
+        question_messages = request.session.get("question_messages", {})
 
-        page_number = request.GET.get('page')
-        page_obj = p.get_page(page_number)
+        context = {
+            "questions": allquestions,
+            "page_obj": page_obj,
+            "course": course,
+            "question_messages": question_messages,  # Use "question_messages" instead of "messages"
+        }
 
-        return render(request, 'quizapp/questions.html', {'questions':allquestions,'page_obj': page_obj, 'course': course})
+        return render(request, "quizapp/questions.html", context)
 
-
-    if request.method == "POST":
-        #selected answer should be gotten from the front end using request.POST.get('name')
-        #compare selected answer with correct answer
-        #return a message to tell if answer is correct or wrong
-        #if correct return success message
-        #if wrong return error message
+    elif request.method == "POST":
         questions = QuizCreate.objects.filter(course_name__slug=quiz_name)
         score = 0
+        question_messages = {}
         for question in questions:
-            answer_selected = f'option{question.id}'
+            answer_selected = f"option{question.id}"
             answer_correct = question.answer
             selected_answer = request.POST.get(answer_selected)
-            course = request.POST.get("course_title")
             if selected_answer == answer_correct:
                 score += 1
-                messages.success(request, "🎉 Correct Answer")
+                question_messages[str(question.id)] = "🎉 Correct Answer"
             else:
-                messages.warning(request, "⛔ Wrong answer")
+                question_messages[str(question.id)] = "⛔ Wrong answer"
 
         percentage_score = (score / questions.count()) * 100
-        formatted_score = '{:.0f}'.format(percentage_score)
+        formatted_score = "{:.0f}".format(percentage_score)
         final_score = int(formatted_score)
-        
-        user=request.user
+
+        user = request.user
         course_title = request.POST.get("course_title")
         course = Course.objects.get(quiz_name=course_title)
         result = QuizStudent(student=user, quiz_course=course, score=final_score)
         result.save()
-        return HttpResponseRedirect(reverse('quizapp:questions', kwargs={'quiz_name': course_title.lower()}))
-        
+
+        request.session["question_messages"] = question_messages
+
+        return HttpResponseRedirect(
+            reverse("quizapp:questions", kwargs={"quiz_name": course_title.lower()})
+        )

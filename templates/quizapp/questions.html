@@ -59,7 +59,11 @@
                                     </div>
                                 </fieldset>
                                   <input type="hidden" name="answer" id="answer" value="{{q.answer}}">
-                                  {% include 'quizapp/messages.html' %}
+                                  {% with question_id=question.id|stringformat:"s" %}
+                                    {% if question_id in question_messages %}
+                                        <div class="alert alert-sm alert-primary" role="alert">{{ question_messages.question_id }}</div>
+                                    {% endif %}
+                                {% endwith %}
                                 </div>
                                 {% endfor %}
                                                             

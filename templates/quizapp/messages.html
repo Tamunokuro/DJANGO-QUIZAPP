@@ -1,13 +1,5 @@
-{% if messages %}
-{% for message in messages %}
-{% if message.tags == 'success' %}
-    <div class="alert alert-sm alert-success">
-        {{ message }}
-    </div>
-{% elif message.tags == 'warning' %}
-    <div class="alert alert-sm alert-warning">
-        {{ message }}
-    </div>
-{% endif %}
-{% endfor %}
-{% endif %}    
+{% with question_id=question.id|stringformat:"s" %}
+    {% if question_id in question_messages %}
+        <div class="alert alert-sm alert-primary" role="alert">{{ question_messages.question_id }}</div>
+    {% endif %}
+{% endwith %}
