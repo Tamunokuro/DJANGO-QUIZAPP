@@ -17,55 +17,52 @@
                             <p class="mb-1 text-muted">Please read question carefully</p>
                             
                             <div id="quiz__form">
+                                {% include 'quizapp/messages.html' %}
                             <form method="POST" action="">
                             {% csrf_token %}
                             
                             {% for q in page_obj %}
-                            <input type="hidden" name="course_title" value="{{ course.quiz_name }}">
-                            
-                            <div class="form-group">
-                                <div class="col alert-primary p-3 rounded" role="alert" name="question" id="question" value="{{ q.question }}">
-                                    Q. {{ q.question }}
-                                </div>
-                                <br>
+                                <input type="hidden" name="course_title" value="{{ course.quiz_name }}">
                                 
-                                <fieldset id="answers">
-                                    <div class="form-check">
-                                        <input class="form-check-input" value="{{ q.option1 }}" type="radio" name="option{{ q.id }}" id="option1">
-                                        <label class="form-check-label" for="option1">
-                                            A. {{ q.option1 }}
-                                        </label>
+                                <div class="form-group">
+                                    <div class="col alert-primary p-3 rounded" role="alert" name="question_{{ q.id }}" id="question">
+                                        Q. {{ q.question }}
                                     </div>
+                                    <br>
                                     
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option2" value="{{ q.option2 }}">
-                                        <label class="form-check-label" for="option2">
-                                            B. {{ q.option2 }}
-                                        </label>
-                                    </div>
+                                    <fieldset id="answers">
+                                        <div class="form-check">
+                                            <input class="form-check-input" value="{{ q.option1 }}" type="radio" name="option{{ q.id }}" id="option1">
+                                            <label class="form-check-label" for="option1">
+                                                A. {{ q.option1 }}
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option2" value="{{ q.option2 }}">
+                                            <label class="form-check-label" for="option2">
+                                                B. {{ q.option2 }}
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option3" value="{{ q.option3 }}">
+                                            <label class="form-check-label" for="option3">
+                                                C. {{ q.option3 }}
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option4" value="{{ q.option4 }}">
+                                            <label class="form-check-label" for="option4">
+                                                D. {{ q.option4 }}
+                                            </label>
+                                        </div>
+                                    </fieldset>
                                     
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option3" value="{{ q.option3 }}">
-                                        <label class="form-check-label" for="option3">
-                                            C. {{ q.option3 }}
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="option{{ q.id }}" id="option4" value="{{ q.option4 }}">
-                                        <label class="form-check-label" for="option4">
-                                            D. {{ q.option4 }}
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                  <input type="hidden" name="answer" id="answer" value="{{q.answer}}">
-                                  {% with question_id=question.id|stringformat:"s" %}
-                                    {% if question_id in question_messages %}
-                                        <div class="alert alert-sm alert-primary" role="alert">{{ question_messages.question_id }}</div>
-                                    {% endif %}
-                                {% endwith %}
+                                    <input type="hidden" name="answer_{{ q.id }}" value="{{ q.answer }}">
                                 </div>
-                                {% endfor %}
+                            {% endfor %}
                                                             
                                 <input class="btn btn-primary check-btn mb-3" type="submit" value="Save" id="submit" onclick="saveQuiz()"/>
                                 </form>
