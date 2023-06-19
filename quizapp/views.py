@@ -43,32 +43,30 @@ def questions(request, quiz_name=None):
         page_number = request.GET.get("page")
         page_obj = p.get_page(page_number)
 
-        question_messages = request.session.get("question_messages", {})
-
         context = {
             "questions": allquestions,
             "page_obj": page_obj,
             "course": course,
-            "question_messages": question_messages,  # Use "question_messages" instead of "messages"
         }
 
         return render(request, "quizapp/questions.html", context)
 
     elif request.method == "POST":
-        questions = QuizCreate.objects.filter(course_name__slug=quiz_name)
+        course_title = request.POST.get('course_title')
         score = 0
-        question_messages = {}
-        for question in questions:
-            answer_selected = f"option{question.id}"
-            answer_correct = question.answer
-            selected_answer = request.POST.get(answer_selected)
-            if selected_answer == answer_correct:
-                score += 1
-                question_messages[str(question.id)] = "🎉 Correct Answer"
-            else:
-                question_messages[str(question.id)] = "⛔ Wrong answer"
+        for key, value in request.POST.items():
+            if key.startswith('option'):
+                question_id = int(key.split('option')[1])
+                user_answer = value
+                correct_answer = request.POST.get(f'answer_{question_id}')
+            
+                if user_answer == correct_answer:
+                    score += 1
+                    messages.success(request, "🎉 Correct Answer")
+                else:
+                    messages.warning(request, "⛔ Wrong answer")
 
-        percentage_score = (score / questions.count()) * 100
+        percentage_score = (score * 10)
         formatted_score = "{:.0f}".format(percentage_score)
         final_score = int(formatted_score)
 
@@ -77,9 +75,4 @@ def questions(request, quiz_name=None):
         course = Course.objects.get(quiz_name=course_title)
         result = QuizStudent(student=user, quiz_course=course, score=final_score)
         result.save()
-
-        request.session["question_messages"] = question_messages
-
-        return HttpResponseRedirect(
-            reverse("quizapp:questions", kwargs={"quiz_name": course_title.lower()})
-        )
+        return redirect('quizapp:questions', quiz_name=course.slug)

@@ -81,7 +81,7 @@ class QuizStudent(models.Model):
     
 
     def __str__(self):
-        return self.student
+        return str(self.student)
 
 
 
